@@ -45,7 +45,7 @@ const Home: NextPage = () => {
   return (
     <>
       <div className="card">
-        {!advice && <div>Help</div>}
+        {!advice && <div className="start">find your advice</div>}
 
         {advice && (
           <div>

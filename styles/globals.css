@@ -46,7 +46,9 @@ h5 {
   text-align: center;
   margin-bottom: 10px;
 }
-
+.start{
+  margin:auto;
+}
 .kreska {
   margin-bottom: 10px;
   position: block;
@@ -68,10 +70,10 @@ button {
   border: none;
   background-color: hsl(150, 100%, 66%);
 }
-button:hover {
+button:active {
   /* -webkit-box-shadow: 0px 0px 39px 32px rgba(66, 68, 90, 1);
 -moz-box-shadow: 0px 0px 39px 32px rgba(66, 68, 90, 1); */
-  box-shadow: 0px 0px 39px 10px hsl(150, 100%, 66%);
+  box-shadow: 0px 0px 20px 10px hsl(150, 100%, 66%);
 }
 
 @media screen and (max-width: 400px) {
@@ -82,10 +84,11 @@ button:hover {
   .advice{
     padding: 0;
     margin-bottom: 0px;
+    font-size: 20px;
 
   }
-
-
-
+  .kreska{
+    margin-bottom: 40px;
+  }
 
 }
