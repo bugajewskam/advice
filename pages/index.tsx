@@ -6,9 +6,37 @@ import styles from "../styles/Home.module.css";
 import { Data, getAdvice } from "./data";
 import { Advice } from "./intervace";
 
+const useMediaQuery = (width: number) => {
+  const [targetReached, setTargetReached] = useState(false);
+
+  const updateTarget = useCallback((e: any) => {
+    if (e.matches) {
+      setTargetReached(true);
+    } else {
+      setTargetReached(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia(`(max-width: ${width}px)`);
+    media.addListener(updateTarget);
+
+    // Check on mount (callback is not called until a change occurs)
+    if (media.matches) {
+      setTargetReached(true);
+    }
+
+    return () => media.removeListener(updateTarget);
+  }, []);
+
+  return targetReached;
+};
+
 const Home: NextPage = () => {
   const [advice, setAdvice] = useState<Data | null>(null);
   const [loading, isLoading] = useState(false);
+  const isBreakpoint = useMediaQuery(400);
+
   const handleAdvice = useCallback(() => {
     isLoading(true);
     getAdvice().then((result: Data) => setAdvice(result));
@@ -22,35 +50,33 @@ const Home: NextPage = () => {
         {advice && (
           <div>
             <div className="number">
-              {" "}
               <h5>ADVICE #{advice?.id}</h5>
             </div>
             <div className="advice">{advice?.advice}</div>
           </div>
         )}
         <div className="kreska">
-
-              {/* <svg width="295" height="16" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" fill-rule="evenodd">
-                  <path fill="#4F5D74" d="M0 8h122v1H0zM173 8h122v1H173z" />
-                  <g transform="translate(138)" fill="#CEE3E9">
-                    <rect width="6" height="16" rx="3" />
-                    <rect x="14" width="6" height="16" rx="3" />
-                  </g>
+          {isBreakpoint ? (
+            <svg width="295" height="16" xmlns="http://www.w3.org/2000/svg">
+              <g fill="none" fill-rule="evenodd">
+                <path fill="#4F5D74" d="M0 8h122v1H0zM173 8h122v1H173z" />
+                <g transform="translate(138)" fill="#CEE3E9">
+                  <rect width="6" height="16" rx="3" />
+                  <rect x="14" width="6" height="16" rx="3" />
                 </g>
-              </svg> */}
-
-              <svg width="444" height="16" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" fill-rule="evenodd">
-                  <path fill="#4F5D74" d="M0 8h196v1H0zM248 8h196v1H248z" />
-                  <g transform="translate(212)" fill="#CEE3E9">
-                    <rect width="6" height="16" rx="3" />
-                    <rect x="14" width="6" height="16" rx="3" />
-                  </g>
+              </g>
+            </svg>
+          ) : (
+            <svg width="444" height="16" xmlns="http://www.w3.org/2000/svg">
+              <g fill="none" fill-rule="evenodd">
+                <path fill="#4F5D74" d="M0 8h196v1H0zM248 8h196v1H248z" />
+                <g transform="translate(212)" fill="#CEE3E9">
+                  <rect width="6" height="16" rx="3" />
+                  <rect x="14" width="6" height="16" rx="3" />
                 </g>
-              </svg>
-            
-          
+              </g>
+            </svg>
+          )}
         </div>
       </div>
 
